@@ -34,6 +34,12 @@ export const TodoList = () => {
     setFilterData(newTask)
   }
 
+  const renderList =()=>{
+    return filterData.map((item) => {
+      return <RenderList key={item.id} data={item} onDelete={() => handleDelete(item.id)}/>
+    })
+  }
+
   const handleDelDone = () => {
     const confirmed = window.confirm('Do you want to delete completed task?')
     if (confirmed) {
@@ -69,12 +75,6 @@ export const TodoList = () => {
       setOnSubmit(false);
     }
   }
-
-  const renderList =()=>{
-    return filterData.map((item) => {
-      return <RenderList key={item.id} data={item} onDelete={() => handleDelete(item.id)}/>
-    })
-  }
   
   return (
     <div className='bg-cyan-800 max-sm:bg-slate-50 h-screen'>
@@ -93,11 +93,11 @@ export const TodoList = () => {
             {/* button search dan add */}
             <div className='flex max-sm:flex-col w-[100%]'>
               <div className='bg-cyan-500 hover:bg-cyan-600 w-[60%] max-sm:w-[100%] h-8 flex justify-center items-center rounded-sm text-white'>
-                <button onClick={handleSearch} className='w-full'>Search</button>
+                <button onClick={handleSearch} className='w-full h-full'>Search</button>
               </div>
 
               <div className='bg-cyan-500 hover:bg-cyan-600 text-white w-[30%] max-sm:w-[100%] flex justify-center items-center rounded-sm ml-[10%] max-sm:mt-3 max-sm:h-8 max-sm:ml-0'>
-                <button onClick={handleAddTask} className='w-full'>Add new Task</button>
+                <button onClick={handleAddTask} className='w-full h-full'>Add new Task</button>
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export const TodoList = () => {
                 </div>
                   
                 <div className='bg-cyan-500 hover:bg-cyan-600 text-white w-[30%] flex justify-center items-center rounded-sm ml-[10%]'>
-                <button onClick={handleAddNewTask} className='w-full'>Add</button>
+                <button onClick={handleAddNewTask} className='w-full h-full'>Add</button>
                 </div>
               </div>
             </div>
@@ -118,16 +118,16 @@ export const TodoList = () => {
 
           {/* button filtering */}
           <div>
-            <p className='flex justify-center font-semibold text-xl '>Todo List</p>
+            <p className='flex justify-center font-semibold text-xl'>Todo List</p>
             <div className='flex w-[100%] h-8 justify-between my-3'>
               <div className='bg-cyan-500 hover:bg-cyan-600 text-white w-[30%] flex justify-center items-center rounded-sm'>
-                <button onClick={() => handleBtn('All')} className='w-full'>All</button>
+                <button onClick={() => handleBtn('All')} className='w-full h-full'>All</button>
               </div>
               <div className='bg-cyan-500 hover:bg-cyan-600 text-white w-[30%] flex justify-center items-center rounded-sm'>
-                <button onClick={() => handleBtn('Done')} className='w-full'>Done</button>
+                <button onClick={() => handleBtn('Done')} className='w-full h-full'>Done</button>
               </div>
               <div className='bg-cyan-500 hover:bg-cyan-600 text-white w-[30%] flex justify-center items-center rounded-sm'>
-                <button onClick={() => handleBtn('Todo')} className='w-full'>Todo</button>
+                <button onClick={() => handleBtn('Todo')} className='w-full h-full'>Todo</button>
               </div>
             </div>
           </div>
@@ -140,10 +140,10 @@ export const TodoList = () => {
           {/* button delete */}
           <div className='flex max-sm:flex-col gap-10 max-sm:gap-3 mt-2 mb-3'>
             <div className='bg-red-600 hover:bg-red-700 text-white w-[50%] max-sm:w-[100%] flex justify-center items-center rounded-sm h-8'>
-              <button onClick={handleDelDone} className='w-full'>Delete done tasks</button>
+              <button onClick={handleDelDone} className='w-full h-full'>Delete done tasks</button>
             </div>
             <div className='bg-red-600 hover:bg-red-700 text-white w-[50%] max-sm:w-[100%] flex justify-center items-center rounded-sm h-8'>
-              <button onClick={handleDelAll} className='w-full'>Delete all tasks</button>
+              <button onClick={handleDelAll} className='w-full h-full'>Delete all tasks</button>
             </div>
           </div>
         </div> 
