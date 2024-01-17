@@ -8,12 +8,26 @@ export const TodoList = () => {
   const [filterData, setFilterData] = useState(data)
   const [onSubmit, setOnSubmit] = useState(false)
   const [newTask, setNewTask] = useState('')
+  const [ClickSearch, setClickSearch] = useState(false)
+  const [searchError, setSearchError] = useState(false)
+  const [deletedData, setDeletedData] = useState([]);
+
+  console.log(deletedData, "deleted data")
+  console.log(filterData, "data awal")
 
   const handleSearch =() => {
     const filteredData = data.filter((item) => {
       return search.toLowerCase() === '' ? item : item.task.toLowerCase().includes(search.toLowerCase())
     })
+
+    if (filteredData.length === 0) {
+      setSearchError(true);
+    } else {
+      setSearchError(false);
+    }
+
     setFilterData(filteredData)
+    setClickSearch(true)
   }
 
   const handleBtn = (type) => {
@@ -30,8 +44,18 @@ export const TodoList = () => {
   }
 
   const handleDelete = (itemId) => {
-    const newTask = data.filter((task) => task.id !== itemId)
-    setFilterData(newTask)
+    // const deletedItem = filterData.find((task) => task.id === itemId);
+    // setDeletedData([...deletedData, deletedItem]);
+
+    // const newTask = filterData.filter((task) => task.id !== itemId)
+    // setFilterData(newTask)
+
+    const filteredItems = filterData.filter((task) => task.id !== itemId);
+    const deletedItem = filterData.find((task) => task.id === itemId);
+
+    setDeletedData([...deletedData, deletedItem]);
+
+    setFilterData(filteredItems);
   }
 
   const renderList =()=>{
@@ -43,21 +67,25 @@ export const TodoList = () => {
   const handleDelDone = () => {
     const confirmed = window.confirm('Do you want to delete completed task?')
     if (confirmed) {
-        const newTask = filterData.filter((task) => task.complete === false)
-        setFilterData(newTask)
+        const filteredItems = filterData.filter((task) => task.complete === false)
+        // const deletedItem = filterData.find((task) => task.complete === true);
+        setDeletedData([...deletedData, ...filterData.filter((task) => task.complete === true)]);
+        setFilterData(filteredItems)
     }
   }
 
   const handleDelAll = () => {
     const confirmed = window.confirm('Do you want to delete all task?')
     if (confirmed) {
-        const newTask = filterData.filter((task) => task.complete === "")
-        setFilterData(newTask)
+        // const newTask = filterData.filter((task) => task.complete === "")
+        // setFilterData(newTask)
+        setDeletedData([...deletedData, ...filterData]);
+        setFilterData([]);
     }
   }
 
   const handleAddTask =() => {
-    setOnSubmit(true)
+    setOnSubmit(!onSubmit)
   }
 
   const handleAddNewTask = () => {
@@ -133,6 +161,12 @@ export const TodoList = () => {
           </div>
 
           {/* menampilkan list */}
+          {ClickSearch && searchError ? (
+            <div className='text-md pt-[2rem] flex justify-center'>Task not found :(</div>
+          ) : null}
+          {filterData.length === 0 ? (
+            <div className='text-md pt-[2rem] flex justify-center'>Ups, the task is empty :(</div>
+          ) : null}
           <div className='space-y-3 py-8'>
             {renderList()}
           </div>
